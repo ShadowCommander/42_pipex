@@ -1,0 +1,3 @@
+[submodule "libft"]
+	path = libft
+	url = gh:ShadowCommander/libft.git
