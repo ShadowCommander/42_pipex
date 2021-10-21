@@ -31,6 +31,7 @@ MODE =
 all: $(NAME)
 
 debug: CCFLAGS += -g
+debug: CFLAGS += -g
 debug: OFLAGS += -g
 debug: MODE = debug
 debug: cleanobj $(NAME) 

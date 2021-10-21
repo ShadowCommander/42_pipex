@@ -33,7 +33,7 @@ HEADERS := . #list/libft_list.h
 FILES := $(SRC) #$(addprefix list/, $(LIST_FILES))
 OBJ := $(notdir $(FILES:.c=.o))
 CC := clang
-CFLAGS := -Werror -Wall -Wextra
+CCFLAGS := -Werror -Wall -Wextra ${CFLAGS}
 
 all: $(NAME)
 
@@ -42,7 +42,7 @@ $(NAME): $(OBJ)
 	ranlib $(NAME)
 
 $(OBJ):
-	$(CC) $(CFLAGS) -c $(FILES) -I $(HEADERS)
+	$(CC) $(CCFLAGS) -c $(FILES) -I $(HEADERS)
 
 clean:
 	/bin/rm -f $(OBJ)

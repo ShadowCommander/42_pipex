@@ -12,11 +12,24 @@
 
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 int	main(int argc, char **argv)
 {
 	int	fd;
 
-	fd = open("out.txt", O_WRONLY | O_CREAT);
-	write(fd, "Hello\n", 6);
+	if (argc < 2)
+	{
+		printf("Usage: %s <file> [line1] [line2] [line3...]", argv[0]);
+		return (EXIT_FAILURE);
+	}
+
+	fd = open(argv[1], O_RDONLY);
+	printf("%d\n", fd);
+//	fd = open(argv[1], O_WRONLY | O_CREAT);
+//	for (int i = 2; i < argc; i++)
+//	{
+//		dprintf(fd, "%s\n", argv[i]);
+//	}
 }
