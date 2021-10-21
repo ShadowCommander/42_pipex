@@ -6,17 +6,19 @@
 #    By: jtong <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/12 09:44:30 by jtong             #+#    #+#              #
-#    Updated: 2021/10/21 11:17:09 by jtong            ###   ########.fr        #
+#    Updated: 2021/10/21 13:27:12 by jtong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := libft.a
 SRC := $(wildcard *.c)
-HEADERS := .
+HEADERDIRS := .
 FILES := $(SRC)
-OBJ := $(notdir $(FILES:.c=.o))
+OBJ := $(FILES:.c=.o)
 CC := clang
-CCFLAGS := -Werror -Wall -Wextra ${CFLAGS}
+HEADERFLAGS := $(addprefix -I,$(HEADERDIRS))
+OFLAGS := $(HEADERFLAGS)
+CFLAGS := -Werror -Wall -Wextra
 
 all: $(NAME)
 
@@ -24,8 +26,8 @@ $(NAME): $(OBJ)
 	ar rc $(NAME) $(OBJ)
 	ranlib $(NAME)
 
-$(OBJ):
-	$(CC) $(CCFLAGS) -c $(FILES) -I $(HEADERS)
+%.o: %.c
+	$(CC) $(OFLAGS) -c $< -o $@
 
 clean:
 	/bin/rm -f $(OBJ)

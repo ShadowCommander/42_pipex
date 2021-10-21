@@ -6,7 +6,7 @@
 #    By: jtong <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/12 09:44:30 by jtong             #+#    #+#              #
-#    Updated: 2021/10/21 11:25:00 by jtong            ###   ########.fr        #
+#    Updated: 2021/10/21 13:50:07 by jtong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,13 +31,12 @@ MODE =
 all: $(NAME)
 
 debug: CCFLAGS += -g
-debug: CFLAGS += -g
 debug: OFLAGS += -g
 debug: MODE = debug
-debug: cleanobj $(NAME) 
+debug: cleanobj $(NAME)
 
 leaks: CCFLAGS += -fsanitize=address
-leaks: cleanobj $(NAME) 
+leaks: cleanobj $(NAME)
 
 $(NAME): $(OBJ) $(LIBFULL)
 	$(CC) $(notdir $(OBJ)) $(CCFLAGS) -o $@
@@ -59,10 +58,11 @@ test: $(NAME)
 
 clean:
 	/bin/rm -f $(NAME)
+	$(MAKE) -C libft $(or $(MODE),clean)
 
+fclean: MODE = fclean
 fclean: clean
 	/bin/rm -f $(OBJ)
-	$(MAKE) -C libft clean
 
 re: fclean all
 
