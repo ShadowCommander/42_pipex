@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jtong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/29 15:53:50 by jtong             #+#    #+#             */
-/*   Updated: 2018/11/26 16:45:57 by jtong            ###   ########.fr       */
+/*   Created: 2021/10/21 11:07:37 by jtong             #+#    #+#             */
+/*   Updated: 2021/10/21 11:09:01 by jtong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#ifndef PIPEX_H
+# define PIPEX_H
 
-void	*ft_memchr(const void *s, int c, size_t n)
-{
-	const unsigned char	*str;
-	unsigned char		chr;
+# include <fcntl.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <sys/wait.h>
+# include <errno.h>
+# include "libft.h"
 
-	str = (unsigned char *)s;
-	chr = (unsigned char)c;
-	while (n-- > 0)
-		if (*str++ == chr)
-			return ((void *)(str - 1));
-	return (NULL);
-}
+void	die_print(int errnum, char *program, char *file);
+void	die(int exit_code, int errnum, char *program, char *file);
+void	pipex_free_vars(char *cmd, char **cmd_args);
+#endif

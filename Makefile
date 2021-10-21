@@ -6,12 +6,12 @@
 #    By: jtong <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/12 09:44:30 by jtong             #+#    #+#              #
-#    Updated: 2021/10/20 11:25:13 by user42           ###   ########.fr        #
+#    Updated: 2021/10/21 11:25:00 by jtong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := pipex
-FILENAMES := main
+FILENAMES := main cleanup
 LIBS := ft
 LIBNAMES := libft.a
 LIBFULL := libft/libft.a #$(addprefix $(LIBDIR)/,$(LIBNAME))
@@ -42,7 +42,7 @@ leaks: cleanobj $(NAME)
 $(NAME): $(OBJ) $(LIBFULL)
 	$(CC) $(notdir $(OBJ)) $(CCFLAGS) -o $@
 
-$(LIBFULL):
+$(LIBFULL): libft/*.c
 	$(MAKE) -C libft $(MODE)
 
 %.o: %.c

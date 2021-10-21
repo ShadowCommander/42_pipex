@@ -6,7 +6,7 @@
 /*   By: jtong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/27 16:28:56 by jtong             #+#    #+#             */
-/*   Updated: 2021/10/18 11:55:26 by user42           ###   ########.fr       */
+/*   Updated: 2021/10/21 11:30:16 by jtong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #  define LONG_MAX	0x7fffffffffffffffL
 # endif
 # ifndef LONG_MIN
-#  define LONG_MIN	(-0x7fffffffffffffffL-1)
+#  define LONG_MIN	0x8000000000000001L
 # endif
 
 typedef struct s_strtol	t_strtol;

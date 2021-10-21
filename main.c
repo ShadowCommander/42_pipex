@@ -6,60 +6,11 @@
 /*   By: user42 <jtong@student.42.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 10:20:45 by user42            #+#    #+#             */
-/*   Updated: 2021/10/20 11:15:50 by user42           ###   ########.fr       */
+/*   Updated: 2021/10/21 11:26:06 by jtong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// handle invalid file1
-// handle no-access file1
-// handle cmd1 failure
-// handle cmd2 failure
-// handle invalid file2
-// handle no-access file2
-
-#include "libft/libft.h"
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <errno.h>
-
-void	die_print(int errnum, char *program, char *file)
-{
-	char	*err;
-
-	write(STDERR_FILENO, program, ft_strlen(program));
-	write(STDERR_FILENO, ": ", 2);
-	if (file)
-	{
-		write(STDERR_FILENO, file, ft_strlen(file));
-		write(STDERR_FILENO, ": ", 2);
-	}
-	err = strerror(errnum);
-	write(STDERR_FILENO, err, ft_strlen(err));
-	write(STDERR_FILENO, "\n", 1);
-}
-
-void	die(int exit_code, int errnum, char *program, char *file)
-{
-	die_print(errnum, program, file);
-	exit(exit_code);
-}
-
-void	pipex_free_vars(char *cmd, char **cmd_args)
-{
-	int		i;
-
-	free(cmd);
-	i = 0;
-	while (cmd_args[i])
-	{
-		free(cmd_args[i]);
-		i++;
-	}
-	free(cmd_args);
-}
+#include "pipex.h"
 
 char	*find_cmd(char *cmd, char **env)
 {
@@ -81,8 +32,7 @@ char	*find_cmd(char *cmd, char **env)
 		path = ft_strjoin(paths[i], tmp_cmd);
 		if (access(path, F_OK) == 0)
 			break ;
-		free(path);
-		path = NULL;
+		ft_strdel(&path);
 		i++;
 	}
 	pipex_free_vars(tmp_cmd, paths);
@@ -109,7 +59,6 @@ void	pipex_parent(int child_pid, int *pipefd, char **argv, char **env)
 	if (dup2(outfilefd, STDOUT_FILENO) == -1)
 		die(EXIT_FAILURE, errno, argv[0], "dup2 failed to dup STDOUT_FILENO");
 	w = waitpid(child_pid, &wstatus, 0);
-//	dprintf(fd, "waitpid: %d %d %s\n", w, wstatus, strerror(errno));
 	cmd_args = ft_strsplit(argv[3], ' ');
 	cmd = find_cmd(cmd_args[0], env);
 	execve(cmd, cmd_args, env);
@@ -135,9 +84,6 @@ void	pipex_child(int *pipefd, char **argv, char **env)
 		die(EXIT_FAILURE, errno, argv[0], "dup2 failed to dup STDIN_FILENO");
 	cmd_args = ft_strsplit(argv[2], ' ');
 	cmd = find_cmd(cmd_args[0], env);
-	int		fd = open("error.txt", O_WRONLY | O_CREAT | O_APPEND, 0666);
-	dprintf(fd, "# new run\n");
-	dprintf(fd, "%s: infilefd: %d, \n", cmd, infilefd);
 	execve(cmd, cmd_args, env);
 	die_print(errno, argv[0], argv[1]);
 	close(infilefd);
@@ -155,8 +101,10 @@ int	main(int argc, char **argv, char **env)
 
 	if (argc != 5)
 	{
-		printf("Wrong number of arguments\n");
-		printf("Usage: %s <infile> <cmd1> <cmd2> <outfile>\n", argv[0]);
+		ft_putstr_fd("Wrong number of arguments\n", STDERR_FILENO);
+		ft_putstr_fd("Usage: ", STDERR_FILENO);
+		ft_putstr_fd(argv[0], STDERR_FILENO);
+		ft_putstr_fd("<infile> <cmd1> <cmd2> <outfile>\n", STDERR_FILENO);
 		return (0);
 	}
 	if (pipe(pipefd) == -1)

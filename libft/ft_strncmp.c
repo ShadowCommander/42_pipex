@@ -6,13 +6,13 @@
 /*   By: jtong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 23:31:23 by jtong             #+#    #+#             */
-/*   Updated: 2018/11/09 14:39:39 by jtong            ###   ########.fr       */
+/*   Updated: 2021/10/21 11:33:20 by jtong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
 
-int		ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	if (!n)
 		return (0);
